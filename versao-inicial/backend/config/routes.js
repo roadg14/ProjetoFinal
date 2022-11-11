@@ -23,4 +23,13 @@ module.exports = app => {
     .get(app.api.category.getById) // Pesquisa.
     .put(app.api.category.save) // Fazendo a alteração.
     .delete(app.api.category.remove) // Excluir.
+
+    app.route('/articles') // Funções que estão em articles.js
+    .get(app.api.article.get) // Resultado.
+    .post(app.api.article.save) // Criando e Salvando.
+
+    app.route('/articles/:id') // A rota com id no final tambem.
+    .get(app.api.article.getById) // Pesquisa.
+    .put(app.api.article.save) // Fazendo a alteração.
+    .delete(app.api.article.remove) // Excluir.
 }
