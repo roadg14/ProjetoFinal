@@ -1,4 +1,4 @@
-//  const queries = require('./queries')
+const queries = require('./queries') // Importando queries.js fazerndo ligação com id's dando filho de depencias.
 
 module.exports = app => {
     const { existsOrError } = app.api.validation // Acessando as Funções que estão no Validation.js.
@@ -78,6 +78,27 @@ module.exports = app => {
             .catch(err => res.status(500).send(err)) // Pega todos id's que pertencem à categoria informado e seus filhos
     }
 
+    // Função que pega os ID das categorias.
+    const getByCategory = async(req, res) => {
+        const categoryId = req.params.id  // Buscando as categorias ID Pai
 
-    return { save, remove, get, getById}
+        const page = req.query.page || 1 // Caso não obter retorno assume página 1
+        const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
+
+        const ids = categories.rows.map(c => c.id) // Aqui vai gerar uma Array de ID's e os ID'S das Filhos.
+
+        // Consulta em Knex.
+        app.db({ a: 'articles', u: 'users' }) // Fazendo uma consultar tanto no article, tanto no users.
+            .select('a.id', 'a.name', 'a.description', 'a.imageUrl', { author: 'u.name' }) // Selecionando id,name,descrição,imagen. e Fazendo que o Author seja o nome.
+            .limit(limit).offset(page * limit -limit) //
+            .whereRaw('?? = ??', ['u.id', 'a.userId']) // Igualando tabelas // Tambem encontra o autor do artigo.
+            .whereIn('categoryId', ids) // Dentro dos parâmetros estabelecidos 
+            .orderBy('a.id', 'desc')  // Uma ordenação. Deicando por ordem.
+            .then(articles => res.json(articles))
+            .catch(err => res.status(500).send(err))
+
+    }
+
+
+    return { save, remove, get, getById, getByCategory }
 }

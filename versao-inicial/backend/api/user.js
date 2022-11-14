@@ -23,8 +23,9 @@ module.exports = app => { // app -> instância do express.
 
         // Garantindo para que usuário não seja cadastrado a partir de signup
         // Apenas admin pode cadastrar outro admin
-        //if (!req.originalUrl.startsWith('/users')) user.admin = false //
-        //if (!req.user || !req.user.admin) user.admin = false // 
+        // Essa função é para que quando for cadastrar um novo usuario não podera cadastrar um usuario admin se não for um proprio admin cadastrando um novo.
+        if (!req.originalUrl.startsWith('/users')) user.admin = false
+        if (!req.user || !req.user.admin) user.admin = false
 
         try { // Se não exitir | value, mgs // Essas são as mensagens que vão aparecer na Validação.
             existsOrError(user.name, 'Nome não informado') // Quando o nome não for informado.
@@ -51,7 +52,7 @@ module.exports = app => { // app -> instância do express.
             app.db('users')
                 .update(user) // Fazer update no banco de dados.
                 .where({ id: user.id }) // Se der tudo certo, ele vai chamar o .then com status.
-                //.whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
+                .whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
                 .then(_ => res.status(204).send()) // Se ocorrer com sucesso.
                 .catch(err => res.status(500).send(err)) // Se cair no catch siginifica que ocorreu um erro no lado do servidor
         } else { // Caso ID não exista, insere usuário no BD
@@ -66,7 +67,7 @@ module.exports = app => { // app -> instância do express.
     const get = (req, res) => { // Pega todos usuários do BD
         app.db('users')
             .select('id', 'name', 'email', 'admin') // Os Usuarios Selecionados.
-            //.whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
+            .whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
             .then(users => res.json(users)) // Ao receber usuários retorna como json
             .catch(err => res.status(500).send(err)) // O Err de Banco.
     }
@@ -75,12 +76,30 @@ module.exports = app => { // app -> instância do express.
         app.db('users')
             .select('id', 'name', 'email', 'admin')
             .where({ id: req.params.id })
-            //.whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
+            .whereNull('deletedAt') // Esse campo tem que está null para que o usuario não seja excluido. Vai continuar no Banco de Dados.
             .first() // Pegando um unico resultado, não a lista
             .then(user => res.json(user)) // Ao receber usuários retorna como json
             .catch(err => res.status(500).send(err))
     }
 
+    // Função que vai remover o usuario.
+    const remove = async (req, res) => {
+        try {
+            const articles = await app.db('articles')
+                .where({ userId: req.params.id }) // filtrando e Pegando o Id do usuarios.
+            notExistsOrError(articles, 'Usuário possui artigos vinculados.') // Erro
+            
+            const rowsUpdated = await app.db('users')
+                .update({ deletedAt: new Date() }) // Dando um update.
+                .where({ id: req.params.id  })
+            existsOrError(rowsUpdated, 'Usuário não foi encontrado.') // Caso o usuario não sejá encontrado.
 
-    return { save, get, getUserById }
+            res.status(204).send() // Caso passou.
+        } catch(msg) {
+            res.status(400).send(msg) // Mensagem de erro.
+        }
+    }
+
+
+    return { save, get, getUserById, remove }
 }

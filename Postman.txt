@@ -9,6 +9,7 @@ Inserindo um usuario ->
     "confirmPassword": "1234567",
     "admin": true
 }
+
 Inserindo uma categoria -> http://localhost:3000/categories
 {
     "name": "Web Moderno"
@@ -20,6 +21,17 @@ Inserindo uma categoria -> http://localhost:3000/categories
     "name": "Web Moderno",
     "parentId": 1
 }
+
+Inserindo os Artigos -> http://localhost:3000/articles
+{
+    "name": "10 Motivos para usar VueJS",
+    "description": "O artigo aborda os aspectos...",
+    "userId": 1,
+    "categoryId": 4,
+    "content": "Conteúdo do artigo..."
+}
+
+// 
 
 
 

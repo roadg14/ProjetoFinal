@@ -1,14 +1,10 @@
 // Update with your config settings.
 
-// const { db } = require('./.env') // Importando do Arquivo .env
+const { db } = require('./.env') // Importando do Arquivo .env
 
 module.exports = {
   client: 'postgresql',
-  connection: {
-    database: 'knowledge',
-    user: 'postgres',
-    password: '86711977'
-  },
+  connection: db,
   pool: {
     min: 2,
     max: 10

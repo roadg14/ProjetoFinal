@@ -18,6 +18,7 @@ Para start o Backend - npm start
 npx knex migrate:make create_table_users
 npx knex migrate:make create_table_categories
 npx knex migrate:make create_table_articles
+npx knex migrate:make add_deleted_at_table_users
 
 no final de table_  voce pode coloca qual o nome da tabela.
 
@@ -41,7 +42,7 @@ Startar o backend é -> npm start
 
 Os comandos que vai colocar no arquivo .Env *
 module.exports = {
-    authSecret: 'SenhaSecreta',
+    authSecret: '',
     db: {
         host : '127.0.0.1',
         port: 5432,
