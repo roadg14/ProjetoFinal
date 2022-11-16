@@ -24,7 +24,7 @@ module.exports = app => { // app -> instância do express.
         // Garantindo para que usuário não seja cadastrado a partir de signup
         // Apenas admin pode cadastrar outro admin
         // Essa função é para que quando for cadastrar um novo usuario não podera cadastrar um usuario admin se não for um proprio admin cadastrando um novo.
-        if (!req.originalUrl.startsWith('/users')) user.admin = false
+        if (!req.originalUrl.startsWith('/users')) user.admin = false // Essa função vcai deixar voce cadastrar novos admin. pelo users
         if (!req.user || !req.user.admin) user.admin = false
 
         try { // Se não exitir | value, mgs // Essas são as mensagens que vão aparecer na Validação.

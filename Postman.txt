@@ -31,7 +31,33 @@ Inserindo os Artigos -> http://localhost:3000/articles
     "content": "Conteúdo do artigo..."
 }
 
-// 
+// Para fazer login -> http://localhost:3000/signin
+// Após fazer login pega o token e colocar em baixo no authorizarion que fica no Header. Para que possa acessar normalmente de novo
+// Sei não estiver com admin verdadeiro não poderar acessar algumas materias e sempre dará "Não Autorizado" 
+
+Authorization -> bearer -> token que é gerado.
+Content-Type -> application/json
+
+{
+    "email": "douglasgc13@gmail.com",
+    "password": "123456"
+}
+
+// Para ver se consegui acessar as estatisticas para saber as quantidades -> http://localhost:3000/stats
+// Só conseguirar ver quando fizer login, mesmo sendo admin ou não.
+
+{
+    "_id": "636bb78842cfed1130798623",
+    "users": 9,
+    "categories": 5,
+    "articles": 2,
+    "createdAt": "2022-11-09T14:22:00.016Z",
+    "__v": 0
+}
+
+// nessa URL eu consigo muito bem fazer o cadastro de outro admin, quando eu estiver feito login de admin.
+http://localhost:3000/users
+
 
 
 
