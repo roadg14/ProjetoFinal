@@ -51,7 +51,7 @@ module.exports = app => {
     }
 
     // Função que vai limitar as paginação // No máximo 10 registros por paginação
-    const limit = 10
+    const limit = 5
     const get = async (req, res) => {
         const page = req.query.page || 1
         // Essa função vai definir que a primeira pagina a aparecer sempre vai ser o Exibido.
@@ -81,10 +81,8 @@ module.exports = app => {
     // Função que pega os ID das categorias.
     const getByCategory = async(req, res) => {
         const categoryId = req.params.id  // Buscando as categorias ID Pai
-
         const page = req.query.page || 1 // Caso não obter retorno assume página 1
         const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
-
         const ids = categories.rows.map(c => c.id) // Aqui vai gerar uma Array de ID's e os ID'S das Filhos.
 
         // Consulta em Knex.

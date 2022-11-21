@@ -65,6 +65,7 @@
                 </b-button>
             </template>
         </b-table>
+        <!-- Componente de paginação - Vai fazer as paginação a mudança dentro -->
         <b-pagination size="md" v-model="page" 
             :total-rows="count" :per-page="limit" /> <!-- Limitadores de paginas. -->
     </div>
@@ -74,6 +75,7 @@
 import { VueEditor } from 'vue2-editor'
 import { baseApiUrl, showError } from '@/global'
 import axios from 'axios'
+
 export default {
     name: 'ArticleAdmin',
     components: { VueEditor },
@@ -86,7 +88,7 @@ export default {
             users: [], // Vincular ao um usuario.
             page: 1, // Uma pagina de cada
             limit: 0, // Limitador de paginas
-            count: 0,
+            count: 0, // Total de Paginas.
             fields: [ // Mostra os arquivos que tem.
                 { key: 'id', label: 'Código', sortable: true },
                 { key: 'name', label: 'Nome', sortable: true },
@@ -97,7 +99,8 @@ export default {
     },
     methods: {
         loadArticles() { // Função que vai ler os Artigos que já estão no banco de dados!
-            const url = `${baseApiUrl}/articles?page=${this.page}`
+            // Função de leitura de paginação.
+            const url = `${baseApiUrl}/articles?page=${this.page}` // Isso vai fazer com que se conecte a outra pagina.
             axios.get(url).then(res => {
                 this.articles = res.data.data
                 this.count = res.data.count
@@ -151,7 +154,7 @@ export default {
             })
         }
     },
-    watch: { // Paginações.
+    watch: { // Paginações. Sempre que for mudado a paginação, vai ser mudado nos artigos. 
         page() {
             this.loadArticles()
         }
@@ -165,4 +168,5 @@ export default {
 </script>
 
 <style>
+
 </style>
