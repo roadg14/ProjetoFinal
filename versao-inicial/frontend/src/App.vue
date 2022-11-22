@@ -1,7 +1,9 @@
 <template>
-	<div id="app" :class="{'hide-menu': !isMenuVisible}"> <!-- Fazendo o grid sumi quando o menu estiver false tambem.-->
-		<Header title="Douglas - Projeto Base de Conhecimento" :hideToggle="false" :hideUserDropdown="false"/> <!-- Para aceitar esse hidetoggle precisa coloca os dois pontos -> : para intepretar. -->
-		<Menu />
+	<!-- hider-menu vai esconder o isMenuVisible ou quando não tiver usuarios logados. -->
+	<div id="app" :class="{'hide-menu': !isMenuVisible || !user}"> <!-- Fazendo o grid sumi quando o menu estiver false tambem.-->
+		<Header title="Douglas - Projeto Base de Conhecimento" 
+			:hideToggle="!user" :hideUserDropdown="!user"/> <!--  '!user' -> so quando o usuario estiver logado para mostrar. Para aceitar esse hidetoggle precisa coloca os dois pontos -> : para intepretar. -->
+		<Menu v-if="user" /> <!-- Só mostrar quando o usuario estiver Logado. -->
 		<Content />
 		<Footer />
 	</div>
@@ -19,7 +21,7 @@
 export default {
 	name: "App",
 	components: { Header, Menu, Content, Footer }, // Declando os componentes que serão usados.
-	computed: mapState(['isMenuVisible'])
+	computed: mapState(['isMenuVisible', 'user'])
 
 }
 </script>

@@ -5,7 +5,7 @@
         <!-- Vai mostrar os artigos numa lista ordenada -->
         <ul>
             <li v-for="article in articles" :key="article.id">
-                {{article.name}}
+                <ArticleItem :article="article" />
             </li>
         </ul>
         <hr>
@@ -23,12 +23,12 @@
 import { baseApiUrl } from '@/global'
 import axios from 'axios'
 import PageTitle from '../template/PageTitle'
-// import ArticleItem from './ArticleItem'
+import ArticleItem from './ArticleItem'
 
 
 export default {
     name: 'ArticlesByCategory',
-    components: { PageTitle },
+    components: { PageTitle, ArticleItem },
     data: function() {
         return {
             category: {}, // As catefgorias
@@ -49,6 +49,16 @@ export default {
                 this.page++ // Sempre acrecentando novas paginas.
                 if(res.data.length === 0) this.loadMore = false // Se estiver um retorno vazio vai setar o botão mais artigos para falso.
             })
+        }
+    },
+    watch: {
+        $route(to) { // Vai fica monitorando as rotas. // Que esta no arquivo Menu.vue em template
+            this.category.id = to.params.id // Para que URL ele vai quando for selecionado.
+            this.articles = [] // Zerando a Array de arquivos.
+            this.page = 1
+            this.loadMore = true
+            this.getCategory()
+            this.getArticles()
         }
     },
     mounted() {
