@@ -15,7 +15,12 @@ export default new Vuex.Store({
     },
     mutations: { // ALTERANDO O hideToggle -> Para True e False.
         toggleMenu(state, isVisible) { // Função para Quando for clicado o menu fica True e para quando estiver sem nada coloca False.
-            if(isVisible === undefined) {
+            if(!state.user) { // Se não tiver usuario o menu não vai aparecer.
+                state.isMenuVisible = false
+                return
+            }
+            
+            if(isVisible === undefined) { // Alterna entre verdadeiro e falso
                 state.isMenuVisible = !state.isMenuVisible
             } else {
                 state.isMenuVisible = isVisible

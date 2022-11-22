@@ -1,6 +1,7 @@
 // Gerando Build para produção.
-
 import Vue from 'vue'
+
+export const userKey = '__knowledge_user' // Historico de acesso.
 
 export const baseApiUrl = 'http://localhost:3000' // Após alterar para build de produção // A porta 3000 é a porta do backend.
 
@@ -15,4 +16,4 @@ export function showError(e) {
     }
 }
 
-export default { baseApiUrl, showError }
+export default { baseApiUrl, showError, userKey  }
