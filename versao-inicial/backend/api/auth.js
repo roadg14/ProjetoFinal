@@ -29,7 +29,8 @@ module.exports = app => {
             email: user.email,
             admin: user.admin,
             iat: now, // Emitido em // Data quem foi gerado o token.
-            exp: now + (60 * 60 * 24 * 3) // Data de expiração. // Um token que vale 3 dias.
+            exp: now + 10
+            // exp: now + (60 * 60 * 24 * 3) // Data de expiração. // Um token que vale 3 dias.
             // Quando o token exprirar o site vai fazer com que ele faça login novamente.
         }
 

@@ -9,6 +9,8 @@
 
 <script>
 
+import 'highlightjs/styles/dracula.css'
+import hljs from 'highlightjs/highlight.pack.js'
 import { baseApiUrl } from '@/global'
 import axios from 'axios'
 import PageTitle from '../template/PageTitle'
@@ -24,6 +26,11 @@ export default {
     mounted() { // Vai carregar os artigos. para carregar as descrições.
         const url = `${baseApiUrl}/articles/${this.$route.params.id}`
         axios.get(url).then(res => this.article = res.data) 
+    },
+    updated() { // Pra dar corzinha.
+        document.querySelectorAll('.article-content pre').forEach(e => {
+            hljs.highlightBlock(e)
+        })
     }
 }
 </script>

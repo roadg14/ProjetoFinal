@@ -42,7 +42,7 @@ export default {
                 name: 'articlesByCategory',
                 params: { id: node.id }
             })
-
+             // mq.js
             if(this.$mq === 'xs' || this.$mq === 'sm') {
                 this.$store.commit('toggleMenu', false)
             }

@@ -1,8 +1,7 @@
 // Gerando Build para produção.
 import Vue from 'vue'
 
-export const userKey = '__knowledge_user' // Historico de acesso.
-
+export const userKey = '__knowledge_user' // Historico de acesso. chaves dos usuarios que vão fazer login ou se cadastrar.
 export const baseApiUrl = 'http://localhost:3000' // Após alterar para build de produção // A porta 3000 é a porta do backend.
 
 // Função para tratar o Erro.

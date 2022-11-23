@@ -5,6 +5,8 @@ import App from './App'
 
 import './config/bootstrap' // Importando o Bootstrap.js
 import './config/msgs' // Importando do arquivo msgs.js
+import './config/axios' // Quando o token acabar ele vai mandar para o tela de login novamente.
+import './config/mq' // CSS para dentro do site.
 import store from './config/store' // Importando de store.js
 import router from './config/router' // Importando route.js as rotas. 
 
